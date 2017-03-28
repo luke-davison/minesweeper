@@ -135,4 +135,5 @@ function getVariables() {
     numMines = 100;
     boardSize = "large";
   }
+  mineCount = numMines;
 }
