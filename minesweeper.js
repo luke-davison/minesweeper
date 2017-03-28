@@ -4,13 +4,14 @@ document.addEventListener('DOMContentLoaded', startGame)
 var board = {
   cells: []
 }
-var boardWidth = 16;
-var boardHeight = 16;
-var numMines = 32;
-var mineCount = 32;
-var boardSize = "medium"
+var boardWidth = 8;
+var boardHeight = 8;
+var numMines = 10;
+var mineCount = 10;
+var boardSize = "small"
 
 function setUpBoard() {
+  board.cells = [];
   for (i = 0;i < boardHeight;i++) {
     for (j = 0; j < boardWidth;j++) {
       board.cells[i*boardWidth+j] = {
@@ -27,6 +28,7 @@ function setUpBoard() {
 }
 
 function addMines() {
+
   var rSpot;
   var nearbySpots;
   for (var i = 0; i < numMines; i++) {
@@ -71,6 +73,7 @@ function checkForWin () {
 }
 function resetBoard() {
   while (document.getElementsByClassName("board")[0].hasChildNodes()) {
+    console.log()
     document.getElementsByClassName("board")[0].removeChild(document.getElementsByClassName("board")[0].lastChild)
   }
   getVariables();
@@ -129,6 +132,7 @@ function getVariables() {
   if ((document.getElementById("largeSize").checked) && (document.getElementById("hardDifficulty").checked)) {
     boardWidth = 22;
     boardHeight = 22;
+    numMines = 100;
     boardSize = "large";
   }
 }
