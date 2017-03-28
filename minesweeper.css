@@ -27,9 +27,6 @@ body {
 
 .board div {
   color: green;
-  font-size: 2rem;
-  width: 75px;
-  height: 75px;
   border: 1px #ccc dotted;
   border-radius: 10%;
   background-color: white;
@@ -37,6 +34,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.small {
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+}
+.medium {
+  width: 25px;
+  height: 25px;
+  font-size: 1.5rem;
+}
+.large {
+  width: 20px;
+  height: 20px;
+  font-size: 1rem;
 }
 
 .board div:hover {
@@ -57,4 +70,28 @@ div.hidden:hover {
 
 div.marked, div.marked:hover {
   background: no-repeat center/60% url("images/mark.svg") deepskyblue;
+}
+
+.reset {
+  align-items: center;
+  display: flex;
+  margin-top: 30px;
+}
+
+.reset-form {
+  margin: 0px 30px;
+}
+.resetbutton {
+  margin-top: 30px;
+  width: 100px;
+  height: 35px;
+  background-color: #b3ccff;
+  text-align: center;
+  font-size: 1.25rem;
+  padding-top: 10px;
+  border-radius: 10%;
+  border: 2px #6699ff
+}
+.resetbutton:hover {
+  background-color: #6699ff;
 }

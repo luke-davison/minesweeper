@@ -4,17 +4,41 @@ document.addEventListener('DOMContentLoaded', startGame)
 var board = {
   cells: []
 }
-var boardwidth = 6;
-var boardheight = 6;
+var boardWidth = 16;
+var boardHeight = 16;
+var numMines = 32;
+var mineCount = 32;
+var boardSize = "medium"
 
 function setUpBoard() {
-  for (i = 0;i < boardwidth;i++) {
-    for (j = 0; j < boardheight;j++) {
-      board.cells[i*boardwidth+j] = {
+  for (i = 0;i < boardHeight;i++) {
+    for (j = 0; j < boardWidth;j++) {
+      board.cells[i*boardWidth+j] = {
         row: i,
         col: j,
         isMine: false,
-        hidden: true
+        hidden: true,
+        isMarked: true,
+        surroundingMines: 0,
+        isProcessed: false
+      }
+    }
+  }
+}
+
+function addMines() {
+  var rSpot;
+  var nearbySpots;
+  for (var i = 0; i < numMines; i++) {
+    rSpot = Math.floor(Math.random()*boardWidth*boardHeight);
+    if (board.cells[rSpot].isMine) {
+      i --;
+    }
+    else {
+      board.cells[rSpot].isMine = true;
+      nearbySpots = lib.getSurroundingCells(board.cells[rSpot].row,board.cells[rSpot].col)
+      for (var j = 0; j < nearbySpots.length;j++) {
+        nearbySpots[j].surroundingMines ++;
       }
     }
   }
@@ -23,8 +47,12 @@ function setUpBoard() {
 function startGame () {
   // Don't remove this function call: it makes the game work!
   setUpBoard();
-
+  addMines();
   lib.initBoard()
+  document.getElementById("minesLeft").innerHTML= "<p>" +numMines + " mines remaining </p>"
+  document.addEventListener('click', checkForWin);
+  document.addEventListener('contextmenu', checkForWin);
+  document.getElementsByClassName("resetbutton")[0].addEventListener('click',resetBoard);
 }
 
 // Define this function to look for a win condition:
@@ -32,19 +60,75 @@ function startGame () {
 // 1. Are all of the cells that are NOT mines visible?
 // 2. Are all of the mines marked?
 function checkForWin () {
-
+  for (var i = 0; i < board.cells.length; i++) {
+    if (board.cells[i].isMarked) {
+      return;
+    }
+  }
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
-  //   lib.displayMessage('You win!')
+  lib.displayMessage('You win!')
 }
+function resetBoard() {
+  while (document.getElementsByClassName("board")[0].hasChildNodes()) {
+    document.getElementsByClassName("board")[0].removeChild(document.getElementsByClassName("board")[0].lastChild)
+  }
+  getVariables();
+  startGame();
 
-// Define this function to count the number of mines around the cell
-// (there could be as many as 8). You don't have to get the surrounding
-// cells yourself! Just use `lib.getSurroundingCells`:
-//
-//   var surrounding = lib.getSurroundingCells(cell.row, cell.col)
-//
-// It will return cell objects in an array. You should loop through
-// them, counting the number of times `cell.isMine` is true.
-function countSurroundingMines (cell) {
+}
+function getVariables() {
+  if ((document.getElementById("smallSize").checked) && (document.getElementById("easyDifficulty").checked)) {
+    boardWidth = 8;
+    boardHeight = 8;
+    numMines = 8;
+    boardSize = "small";
+  }
+  if ((document.getElementById("smallSize").checked) && (document.getElementById("mediumDifficulty").checked)) {
+    boardWidth = 8;
+    boardHeight = 8;
+    numMines = 10;
+    boardSize = "small";
+  }
+  if ((document.getElementById("smallSize").checked) && (document.getElementById("hardDifficulty").checked)) {
+    boardWidth = 8;
+    boardHeight = 8;
+    numMines = 13;
+    boardSize = "small";
+  }
+  if ((document.getElementById("mediumSize").checked) && (document.getElementById("easyDifficulty").checked)) {
+    boardWidth = 16;
+    boardHeight = 16;
+    numMines = 32;
+    boardSize = "medium";
+  }
+  if ((document.getElementById("mediumSize").checked) && (document.getElementById("mediumDifficulty").checked)) {
+    boardWidth = 16;
+    boardHeight = 16;
+    numMines = 40;
+    boardSize = "medium";
+  }
+  if ((document.getElementById("mediumSize").checked) && (document.getElementById("hardDifficulty").checked)) {
+    boardWidth = 16;
+    boardHeight = 16;
+    numMines = 50;
+    boardSize = "medium";
+  }
+  if ((document.getElementById("largeSize").checked) && (document.getElementById("easyDifficulty").checked)) {
+    boardWidth = 22;
+    boardHeight = 22;
+    numMines = 64;
+    boardSize = "large";
+  }
+  if ((document.getElementById("largeSize").checked) && (document.getElementById("mediumDifficulty").checked)) {
+    boardWidth = 22;
+    boardHeight = 22;
+    numMines = 80;
+    boardSize = "large";
+  }
+  if ((document.getElementById("largeSize").checked) && (document.getElementById("hardDifficulty").checked)) {
+    boardWidth = 22;
+    boardHeight = 22;
+    boardSize = "large";
+  }
 }

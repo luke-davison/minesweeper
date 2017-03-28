@@ -3,7 +3,6 @@
   <head>
     <title>Minesweeper</title>
     <link rel="stylesheet" href="minesweeper.css">
-    <script src="lib/tests.js"></script>
     <script src="lib/lib.js"></script>
     <script src="minesweeper.js"></script>
   </head>
@@ -11,5 +10,21 @@
     <div id="message"></div>
     <div id="notes"></div>
     <div class="board"></div>
+    <div id="minesLeft"></div>
+    <div class="reset">
+      <form class="reset-form" name="difficulty-form">
+        <input type="radio" name="gameDifficulty" id = "easyDifficulty" checked="checked"><label>Easy</label><br>
+        <input type="radio" name="gameDifficulty" id = "mediumDifficulty"><label>Medium</label><br>
+        <input type="radio" name="gameDifficulty" id = "hardDifficulty"><label>Hard</label><br>
+      </form>
+      <form class="reset-form" name="size-form">
+        <input type="radio" name="gameSize" id = "smallSize"><label>Small</label><br>
+        <input type="radio" name="gameSize" id = "mediumSize" checked="checked"><label>Medium</label><br>
+        <input type="radio" name="gameSize" id = "largeSize"><label>Large</label><br>
+      </form>
+  </div>
+  <div class="resetbutton">
+    Reset
+  </div>
   </body>
 </html>
