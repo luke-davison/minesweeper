@@ -9,6 +9,7 @@ var boardHeight = 8;
 var numMines = 10;
 var mineCount = 10;
 var boardSize = "small"
+var firstMove = true;
 
 function setUpBoard() {
   board.cells = [];
@@ -27,17 +28,18 @@ function setUpBoard() {
   }
 }
 
-function addMines() {
+function addMines(move) {
 
   var rSpot;
   var nearbySpots;
   for (var i = 0; i < numMines; i++) {
     rSpot = Math.floor(Math.random()*boardWidth*boardHeight);
-    if (board.cells[rSpot].isMine) {
+    if ((board.cells[rSpot].isMine) || (rSpot === move)) {
       i --;
     }
     else {
       board.cells[rSpot].isMine = true;
+      getNodeByCoordinates(board.cells[rSpot].row,board.cells[rSpot].col).classList.add("mine");
       nearbySpots = lib.getSurroundingCells(board.cells[rSpot].row,board.cells[rSpot].col)
       for (var j = 0; j < nearbySpots.length;j++) {
         nearbySpots[j].surroundingMines ++;
@@ -49,7 +51,6 @@ function addMines() {
 function startGame () {
   // Don't remove this function call: it makes the game work!
   setUpBoard();
-  addMines();
   lib.initBoard()
   document.getElementById("minesLeft").innerHTML= "<p>" +numMines + " mines remaining </p>"
   document.addEventListener('click', checkForWin);

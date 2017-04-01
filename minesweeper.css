@@ -92,6 +92,22 @@ div.marked, div.marked:hover {
   border-radius: 10%;
   border: 2px #6699ff
 }
+
 .resetbutton:hover {
   background-color: #6699ff;
+}
+
+.hintbutton {
+  margin-top: 10px;
+  width: 100px;
+  height: 35px;
+  background-color: #ff5050;
+  text-align: center;
+  font-size: 1.25rem;
+  padding-top: 10px;
+  border-radius: 10%;
+  border: 2px #ff1a1a
+}
+.hintbutton:hover {
+  background-color: #ff1a1a;
 }
