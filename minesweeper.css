@@ -111,3 +111,11 @@ div.marked, div.marked:hover {
 .hintbutton:hover {
   background-color: #ff1a1a;
 }
+
+div.minehint {
+  border-color: red;
+}
+
+.emptyhint {
+  border-color: green;
+}

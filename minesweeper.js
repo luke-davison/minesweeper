@@ -138,3 +138,33 @@ function getVariables() {
   }
   mineCount = numMines;
 }
+
+function showHint() {
+  var hint = findMove();
+  if (hint[1]) {
+    getNodeByCoordinates(hint[0].row,hint[0].col).classList.add("minehint");
+  }
+  else {
+    getNodeByCoordinates(hint[0].row,hint[0].col).classList.add("emptyhint");
+  }
+}
+
+function findMove() {
+  var cellsFound = [];
+  var nearbyes = [];
+  for (var i = 0; i < board.cells.length; i ++) {
+    if ((board.cells[i].hidden === false)&&(board.cells[i].surroundingMines > 0)) {
+      cellsFound[cellsFound.length] = i;
+      nearbyes[nearbyes.length] = lib.getSurroundingCells(board.cells[i].row,board.cells[i].col);
+      for (var j = 0; j < nearbyes[nearbyes.length-1].length; j ++) {
+        if ((nearbyes[nearbyes.length-1][j].hidden===false)||(nearbyes[nearbyes.length-1][j].isMarked===false)) {
+          nearbyes[nearbyes.length-1].splice(j,1);
+          j--;
+        }
+      }
+      if (board.cells[i].surroundingMines === nearbyes[nearbyes.length-1].length) {
+        return [nearbyes[nearbyes.length-1][0],true];
+      }
+    }
+  }
+}
