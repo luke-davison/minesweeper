@@ -56,6 +56,7 @@ function startGame () {
   document.addEventListener('click', checkForWin);
   document.addEventListener('contextmenu', checkForWin);
   document.getElementsByClassName("resetbutton")[0].addEventListener('click',resetBoard);
+  document.getElementsByClassName("hintbutton")[0].addEventListener('click',showHint);
 }
 
 // Define this function to look for a win condition:
@@ -78,6 +79,7 @@ function resetBoard() {
     document.getElementsByClassName("board")[0].removeChild(document.getElementsByClassName("board")[0].lastChild)
   }
   getVariables();
+  firstMove = true;
   startGame();
 
 }
@@ -152,18 +154,28 @@ function showHint() {
 function findMove() {
   var cellsFound = [];
   var nearbyes = [];
+  var minesNearby = [];
   for (var i = 0; i < board.cells.length; i ++) {
     if ((board.cells[i].hidden === false)&&(board.cells[i].surroundingMines > 0)) {
       cellsFound[cellsFound.length] = i;
       nearbyes[nearbyes.length] = lib.getSurroundingCells(board.cells[i].row,board.cells[i].col);
+      minesNearby[minesNearby.length] = board.cells[i].surroundingMines;
       for (var j = 0; j < nearbyes[nearbyes.length-1].length; j ++) {
         if ((nearbyes[nearbyes.length-1][j].hidden===false)||(nearbyes[nearbyes.length-1][j].isMarked===false)) {
+          if ((nearbyes[nearbyes.length-1][j].hidden===true)&&(nearbyes[nearbyes.length-1][j].isMarked===false)) {
+            minesNearby[minesNearby.length-1] --;
+          }
           nearbyes[nearbyes.length-1].splice(j,1);
           j--;
         }
       }
-      if (board.cells[i].surroundingMines === nearbyes[nearbyes.length-1].length) {
-        return [nearbyes[nearbyes.length-1][0],true];
+      if (nearbyes[nearbyes.length-1].length > 0) {
+        if (minesNearby[minesNearby.length-1] === nearbyes[nearbyes.length-1].length) {
+          return [nearbyes[nearbyes.length-1][0],true];
+        }
+        if (minesNearby[minesNearby.length-1] === 0) {
+          return [nearbyes[nearbyes.length-1][0],false];
+        }
       }
     }
   }

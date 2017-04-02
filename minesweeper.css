@@ -116,6 +116,6 @@ div.minehint {
   border-color: red;
 }
 
-.emptyhint {
+div.emptyhint {
   border-color: green;
 }
