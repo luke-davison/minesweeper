@@ -113,8 +113,10 @@ div.marked, div.marked:hover {
 
 div.minehint {
   border-color: red;
+  background-color: red;
 }
 
 div.emptyhint {
   border-color: green;
+  background-color: green;
 }
