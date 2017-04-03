@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="minesweeper.css">
+    <script src="lib/lib.js"></script>
+    <script src="minesweeper.js"></script>
+  </head>
+  <body>
+    <div id="message"></div>
+    <div id="notes"></div>
+    <div class="board"></div>
+    <div id="minesLeft"></div>
+    <div class="hintbutton">
+      Hint
+    </div>
+    <div class="reset">
+      <form class="reset-form" name="difficulty-form">
+        <input type="radio" name="gameDifficulty" id = "easyDifficulty"><label>Easy</label><br>
+        <input type="radio" name="gameDifficulty" id = "mediumDifficulty" checked="checked"><label>Medium</label><br>
+        <input type="radio" name="gameDifficulty" id = "hardDifficulty"><label>Hard</label><br>
+      </form>
+      <form class="reset-form" name="size-form">
+        <input type="radio" name="gameSize" id = "smallSize" checked="checked"><label>Small</label><br>
+        <input type="radio" name="gameSize" id = "mediumSize"><label>Medium</label><br>
+        <input type="radio" name="gameSize" id = "largeSize"><label>Large</label><br>
+      </form>
+  </div>
+  <div class="resetbutton">
+    Reset
+  </div></br>
+
+  </body>
+</html>
