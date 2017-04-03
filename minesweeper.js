@@ -53,8 +53,6 @@ function startGame () {
   setUpBoard();
   lib.initBoard()
   document.getElementById("minesLeft").innerHTML= "<p>" +numMines + " mines remaining </p>"
-  document.addEventListener('click', checkForWin);
-  document.addEventListener('contextmenu', checkForWin);
   document.getElementsByClassName("resetbutton")[0].addEventListener('click',resetBoard);
   document.getElementsByClassName("hintbutton")[0].addEventListener('click',showHint);
 }
@@ -64,18 +62,19 @@ function startGame () {
 // 1. Are all of the cells that are NOT mines visible?
 // 2. Are all of the mines marked?
 function checkForWin () {
-  for (var i = 0; i < board.cells.length; i++) {
-    if (board.cells[i].isMarked) {
-      return;
+  if (mineCount === 0) {
+    for (var i = 0; i < board.cells.length; i++) {
+      if ((board.cells[i].isMarked)&&(board.cells[i].hidden)) {
+        return;
+      }
     }
+    // You can use this function call to declare a winner (once you've
+    // detected that they've won, that is!)
+    lib.displayMessage('You win!')
   }
-  // You can use this function call to declare a winner (once you've
-  // detected that they've won, that is!)
-  lib.displayMessage('You win!')
 }
 function resetBoard() {
   while (document.getElementsByClassName("board")[0].hasChildNodes()) {
-    console.log()
     document.getElementsByClassName("board")[0].removeChild(document.getElementsByClassName("board")[0].lastChild)
   }
   getVariables();
@@ -143,7 +142,10 @@ function getVariables() {
 
 function showHint() {
   var hint = findMove();
-  if (hint[1]) {
+  if (hint === undefined) {
+    alert("I cannot see any moves for you.  You'll need to guess.");
+  }
+  else if (hint[1]) {
     getNodeByCoordinates(hint[0].row,hint[0].col).classList.add("minehint");
   }
   else {
@@ -177,6 +179,56 @@ function findMove() {
           return [nearbyes[nearbyes.length-1][0],false];
         }
       }
+      else {
+        cellsFound.splice(cellsFound.length-1,1);
+        nearbyes.splice(nearbyes.length-1,1);
+        minesNearby.splice(minesNearby.length-1,1);
+        //i --;
+      }
     }
   }
+  for (var i = 0; i < cellsFound.length; i++) {
+    for (var j = 0; j < cellsFound.length; j++) {
+      if (i != j) {
+        if (containsAll(nearbyes[i],nearbyes[j])) {
+          for (var k = 0; k < nearbyes[i].length; k ++) {
+            nearbyes[j].splice(nearbyes[j].indexOf(nearbyes[i][k]),1);
+          }
+          minesNearby[j] -= minesNearby[i];
+          if (nearbyes[j].length === 0) {
+            cellsFound.splice(j,1);
+            nearbyes.splice(j,1);
+            minesNearby.splice(j,1);
+            j --;
+          }
+        }
+      }
+    }
+  }
+  for (var i = 0; i < cellsFound.length; i++) {
+    if (minesNearby[i] === nearbyes[i].length) {
+      return [nearbyes[i][0],true];
+    }
+    if (minesNearby[i] === 0) {
+      return [nearbyes[i][0],false];
+    }
+  }
+}
+
+
+//this function returns true if the contents of array1 are all present in array2
+function containsAll(array1,array2) {
+  var found;
+  for (var i = 0; i < array1.length; i ++) {
+    found = false;
+    for (var j = 0; j < array2.length; j ++) {
+      if (array1[i] === array2[j]) {
+        found = true;
+      }
+    }
+    if (found===false) {
+      return false;
+    }
+  }
+  return true;
 }
